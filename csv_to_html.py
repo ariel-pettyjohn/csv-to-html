@@ -24,14 +24,14 @@ def parse_csv_as_html_string(path):
     html_strings.append('<table>')
     
     html_strings.append('<tr>')
-    for key in headings:
-        html_strings.append('<th>{}</th>'.format(escape(key)))
+    for heading in headings:
+        html_strings.append('<th>{}</th>'.format(escape(heading)))
     html_strings.append('</tr>')
     
     for dictionary in dictionary_list:
         html_strings.append('<tr>')
-        for name in headings:
-            value = dictionary.get(name, '')
+        for heading in headings:
+            value = dictionary.get(heading, '')
             html_strings.append('<td>{}</td>'.format(escape(value)))
         html_strings.append('</tr>')
     
