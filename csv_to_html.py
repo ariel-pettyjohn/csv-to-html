@@ -11,9 +11,12 @@ def parse_csv_as_dictionary(path):
             print('CSV file cannot be empty')
         
         rows = list(csv_reader)
-        for row in rows:
-            dictionary = {key: value for key, value in zip(headings, row)}
-            yield dictionary
+        try:
+            if rows[0]:
+                for row in rows:
+                    yield {key: value for key, value in zip(headings, row)}
+        except:
+            print('CSV file must contain at least one row excluding headers')
 
 def parse_csv_as_html_string(path):
     dictionary_list = list(parse_csv_as_dictionary(path))
