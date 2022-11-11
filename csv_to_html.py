@@ -1,6 +1,6 @@
 import csv
 
-def read_csv(path):
+def test_parse_csv_as_dictionary(path):
     with open(path, newline='') as f:
         csv_reader = csv.reader(f)
         headings   = next(csv_reader)
