@@ -44,17 +44,17 @@ def row(cells):
 
 def parse_csv_as_html_string(path):
     records = parse_csv_as_records(path)    
+    
     record_headers = [record.keys() for record in records]
     csv_headers = list(dict.fromkeys(flatten(record_headers)))
     
     header_row = row([f'<th>{escape(header)}</th>' for header in csv_headers])
-    _body_rows = [row(body_cells(record, csv_headers)) for record in records] 
-    body_rows = flatten(_body_rows)
-
+    body_rows = [row(body_cells(record, csv_headers)) for record in records] 
+    
     table = [
         '<table>',
-            '<thead>', *header_row, '</thead>',
-            '<tbody>', *body_rows,  '</tbody>',
+            '<thead>', *header_row,         '</thead>',
+            '<tbody>', *flatten(body_rows), '</tbody>',
         '</table>'
     ]
 
