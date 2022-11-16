@@ -20,30 +20,22 @@ def parse_csv_as_dictionary(path):
 
 def parse_csv_as_html_string(path):
     dictionary_list = list(parse_csv_as_dictionary(path))
-    headers = []
-
-    for dictionary in dictionary_list:
-        for key in dictionary.keys():
-            if key not in headers:
-                headers.append(key)
+    headers = dictionary_list[0].keys()
+   
+    table = [
+        '<table>', 
+            *[
+                '<tr>', 
+                    *[f'<th>{escape(header)}</th>' for header in headers], 
+                '</tr>'
+            ], 
+            *[markup for row in [[
+                '<tr>', 
+                    *[f'<td>{escape(dictionary.get(header, ""))}</td>' for header in headers], 
+                '</tr>'
+            ] for dictionary in dictionary_list] for markup in row], 
+        '</table>'
+    ]
     
-    html_strings = []
-    
-    html_strings.append('<table>')
-    
-    html_strings.append('<tr>')
-    for header in headers:
-        html_strings.append(f'<th>{escape(header)}</th>')
-    html_strings.append('</tr>')
-    
-    for dictionary in dictionary_list:
-        html_strings.append('<tr>')
-        for header in headers:
-            value = dictionary.get(header, '')
-            html_strings.append(f'<td>{escape(value)}</td>')
-        html_strings.append('</tr>')
-    
-    html_strings.append('</table>')
-    
-    html_string = ''.join(html_strings)
+    html_string = ''.join(table)
     return html_string
