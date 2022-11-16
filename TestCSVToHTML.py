@@ -6,15 +6,15 @@ class TestCSVToHTML(unittest.TestCase):
         dictionary_list = list(csv_to_html.parse_csv_as_dictionary('test.csv'))
 
         self.assertEqual(dictionary_list[0], {
-            '1' : '1',
-            '2' : 'Eldon Base for stackable storage shelf, platinum',
-            '3' : 'Muhammed MacIntyre',
-            '4' : '3',
-            '5' : '-213.25',
-            '6' : '38.94',
-            '7' : '35',
-            '8' : 'Nunavut',
-            '9' : 'Storage & Organization',
+            '1': '1',
+            '2': 'Eldon Base for stackable storage shelf, platinum',
+            '3': 'Muhammed MacIntyre',
+            '4': '3',
+            '5': '-213.25',
+            '6': '38.94',
+            '7': '35',
+            '8': 'Nunavut',
+            '9': 'Storage & Organization',
             '10': '0.8'
         })
 
