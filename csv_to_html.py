@@ -20,9 +20,14 @@ def parse_csv_as_dictionary(path):
 
 def parse_csv_as_html_string(path):
     dictionary_list = list(parse_csv_as_dictionary(path))
-    headers = dictionary_list[0].keys()
+    headers = []
    
-    table = [
+    for dictionary in dictionary_list:
+        for key in dictionary.keys():
+            if key not in headers:
+                headers.append(key)
+
+    return ''.join([
         '<table>', 
             *[
                 '<tr>', 
@@ -35,7 +40,4 @@ def parse_csv_as_html_string(path):
                 '</tr>'
             ] for dictionary in dictionary_list] for markup in row], 
         '</table>'
-    ]
-    
-    html_string = ''.join(table)
-    return html_string
+    ])
