@@ -3,8 +3,8 @@ import csv_to_html
 
 
 class TestCSVToHTML(unittest.TestCase):
-    def test_parse_csv_as_dictionary(self):
-        dictionary_list = list(csv_to_html.parse_csv_as_dictionary('test.csv'))
+    def test_parse_csv_as_records(self):
+        dictionary_list = list(csv_to_html.parse_csv_as_records('test.csv'))
 
         self.assertEqual(dictionary_list[0], {
             '1': '1',

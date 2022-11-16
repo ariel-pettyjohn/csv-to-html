@@ -1,8 +1,11 @@
 import csv
 from html import escape
 
+def record(headers, csv_row):
+     _record = {key: value for key, value in zip(headers, csv_row)} 
+     return _record
 
-def parse_csv_as_dictionary(path):
+def parse_csv_as_records(path):
     with open(path, newline='') as f:
         csv_reader = csv.reader(f)
 
@@ -14,8 +17,7 @@ def parse_csv_as_dictionary(path):
         csv_rows = list(csv_reader)
         try:
             if csv_rows[0]:
-                for csv_row in csv_rows:
-                    yield {key: value for key, value in zip(headers, csv_row)}
+                return [record(headers, csv_row) for csv_row in csv_rows]
         except:
             print('CSV file must contain at least one row excluding headers')
 
@@ -41,7 +43,7 @@ def row(cells):
 
 
 def parse_csv_as_html_string(path):
-    records = list(parse_csv_as_dictionary(path))    
+    records = parse_csv_as_records(path)    
     record_headers = [record.keys() for record in records]
     csv_headers = list(dict.fromkeys(flatten(record_headers)))
     
