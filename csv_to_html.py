@@ -27,13 +27,20 @@ def flatten(list):
     return flattened_list
 
 
-def body_cell(record, header):
+def header_cell(header):
+    _header_cell = f'<th>{escape(header)}</th>'
+    return _header_cell
+
+def body_cell(header, record):
     _body_cell = f'<td>{escape(record.get(header, ""))}</td>'
     return _body_cell
 
+def header_cells(csv_headers):
+    _header_cells = [header_cell(header) for header in csv_headers]
+    return _header_cells
 
 def body_cells(record, csv_headers):
-    _body_cells = [body_cell(record, header) for header in csv_headers]
+    _body_cells = [body_cell(header, record) for header in csv_headers]
     return _body_cells
 
 
@@ -48,7 +55,7 @@ def parse_csv_as_html_string(path):
     record_headers = [record.keys() for record in records]
     csv_headers = list(dict.fromkeys(flatten(record_headers)))
     
-    header_row = row([f'<th>{escape(header)}</th>' for header in csv_headers])
+    header_row = row(header_cells(csv_headers))
     body_rows = [row(body_cells(record, csv_headers)) for record in records] 
     
     table = [
