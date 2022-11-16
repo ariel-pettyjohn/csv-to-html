@@ -47,13 +47,13 @@ def parse_csv_as_html_string(path):
 
     table = [
         '<table>',
-        '<thead>',
-        *table_header,
-        '</thead>',
+            '<thead>',
+                *table_header,
+            '</thead>',
 
-        '<tbody>',
-        *table_body,
-        '</tbody>',
+            '<tbody>',
+                *table_body,
+            '</tbody>',
         '</table>'
     ]
 
