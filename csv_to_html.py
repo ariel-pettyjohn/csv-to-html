@@ -27,34 +27,34 @@ def parse_csv_as_html_string(path):
         [header for record in record_headers for header in record]
     ))
 
-    header_cells = [f'<th>{escape(header)}</th>' for header in csv_headers]
-
     def body_cells(record):
         def body_cell(record, header):
-            _body_cell = escape(record.get(header, ""))
+            _body_cell = f'<td>{escape(record.get(header, ""))}</td>'
             return _body_cell
 
-        _body_cells = [
-            f'<td>{body_cell(record, header)}</td>' for header in csv_headers
-        ]
+        _body_cells = [body_cell(record, header) for header in csv_headers]
         return _body_cells
 
-    table_header = ['<tr>', *header_cells, '</tr>']
+    def row(cells):
+        _row = ['<tr>', *cells, '</tr>']
+        return _row
 
-    table_body = [
-        markup for row in [
-            ['<tr>', *body_cells(record), '</tr>'] for record in records
-        ] for markup in row
+    header_rows = row([f'<th>{escape(header)}</th>' for header in csv_headers])
+    
+    body_rows = [
+        markup for body_row in [
+            row(body_cells(record)) for record in records
+        ] for markup in body_row
     ]
 
     table = [
         '<table>',
             '<thead>',
-                *table_header,
+                *header_rows,
             '</thead>',
 
             '<tbody>',
-                *table_body,
+                *body_rows,
             '</tbody>',
         '</table>'
     ]
