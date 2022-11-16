@@ -25,16 +25,21 @@ def parse_csv_as_html_string(path):
     
     html_list = [
         '<table>', 
-            *[
-                '<tr>', 
-                    *[f'<th>{escape(header)}</th>' for header in csv_headers], 
-                '</tr>'
-            ], 
-            *[markup for row in [[
-                '<tr>', 
-                    *[f'<td>{escape(record.get(header, ""))}</td>' for header in csv_headers], 
-                '</tr>'
-            ] for record in records] for markup in row], 
+            '<thead>',
+                *[
+                    '<tr>', 
+                        *[f'<th>{escape(header)}</th>' for header in csv_headers], 
+                    '</tr>'
+                ], 
+            '</thead>',
+            
+            '<tbody>',
+                *[markup for row in [[
+                    '<tr>', 
+                        *[f'<td>{escape(record.get(header, ""))}</td>' for header in csv_headers], 
+                    '</tr>'
+                ] for record in records] for markup in row], 
+            '</tbody>',
         '</table>'
     ]
     
