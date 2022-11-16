@@ -33,14 +33,14 @@ def parse_csv_as_html_string(path):
     
     html_strings.append('<tr>')
     for heading in headings:
-        html_strings.append('<th>{}</th>'.format(escape(heading)))
+        html_strings.append(f'<th>{escape(heading)}</th>')
     html_strings.append('</tr>')
     
     for dictionary in dictionary_list:
         html_strings.append('<tr>')
         for heading in headings:
             value = dictionary.get(heading, '')
-            html_strings.append('<td>{}</td>'.format(escape(value)))
+            html_strings.append(f'<td>{escape(value)}</td>')
         html_strings.append('</tr>')
     
     html_strings.append('</table>')
