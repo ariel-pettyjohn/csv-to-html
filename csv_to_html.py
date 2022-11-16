@@ -1,8 +1,8 @@
 import csv
 from html import escape
 
-def record(headers, csv_row):
-     _record = {key: value for key, value in zip(headers, csv_row)} 
+def record(headers, row):
+     _record = {key: value for key, value in zip(headers, row)} 
      return _record
 
 def parse_csv_as_records(path):
