@@ -31,11 +31,13 @@ def parse_csv_as_html_string(path):
 
     def body_cells(record):
         def body_cell(record, header):
-            return escape(record.get(header, ""))
+            _body_cell = escape(record.get(header, ""))
+            return _body_cell
 
-        return [
+        _body_cells = [
             f'<td>{body_cell(record, header)}</td>' for header in csv_headers
         ]
+        return _body_cells
 
     table_header = ['<tr>', *header_cells, '</tr>']
 
