@@ -6,7 +6,7 @@ def parse_csv_as_dictionary(path):
         csv_reader = csv.reader(f)
 
         try:
-            headings = next(csv_reader)
+            headers = next(csv_reader)
         except: 
             print('CSV file cannot be empty')
         
@@ -14,32 +14,32 @@ def parse_csv_as_dictionary(path):
         try:
             if rows[0]:
                 for row in rows:
-                    yield {key: value for key, value in zip(headings, row)}
+                    yield {key: value for key, value in zip(headers, row)}
         except:
             print('CSV file must contain at least one row excluding headers')
 
 def parse_csv_as_html_string(path):
     dictionary_list = list(parse_csv_as_dictionary(path))
-    headings = []
+    headers = []
 
     for dictionary in dictionary_list:
         for key in dictionary.keys():
-            if key not in headings:
-                headings.append(key)
+            if key not in headers:
+                headers.append(key)
     
     html_strings = []
     
     html_strings.append('<table>')
     
     html_strings.append('<tr>')
-    for heading in headings:
-        html_strings.append(f'<th>{escape(heading)}</th>')
+    for header in headers:
+        html_strings.append(f'<th>{escape(header)}</th>')
     html_strings.append('</tr>')
     
     for dictionary in dictionary_list:
         html_strings.append('<tr>')
-        for heading in headings:
-            value = dictionary.get(heading, '')
+        for header in headers:
+            value = dictionary.get(header, '')
             html_strings.append(f'<td>{escape(value)}</td>')
         html_strings.append('</tr>')
     
