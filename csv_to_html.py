@@ -32,6 +32,7 @@ def parse_csv_as_html_string(path):
     def body_cells(record):
         def body_cell(record, header):
             return escape(record.get(header, ""))
+
         return [
             f'<td>{body_cell(record, header)}</td>' for header in csv_headers
         ]
@@ -40,19 +41,19 @@ def parse_csv_as_html_string(path):
 
     table_body = [
         markup for row in [
-            ['<tr>', *body_cells(record), '</tr>']for record in records
+            ['<tr>', *body_cells(record), '</tr>'] for record in records
         ] for markup in row
     ]
 
     table = [
         '<table>',
-            '<thead>',
-                *table_header,
-            '</thead>',
+        '<thead>',
+        *table_header,
+        '</thead>',
 
-            '<tbody>',
-                *table_body,
-            '</tbody>',
+        '<tbody>',
+        *table_body,
+        '</tbody>',
         '</table>'
     ]
 
