@@ -20,42 +20,39 @@ def parse_csv_as_dictionary(path):
             print('CSV file must contain at least one row excluding headers')
 
 
+def flatten(list):
+    flattened_list = [element for sublist in list for element in sublist]
+    return flattened_list
+
+
+def body_cell(record, header):
+    _body_cell = f'<td>{escape(record.get(header, ""))}</td>'
+    return _body_cell
+
+
+def body_cells(record, csv_headers):
+    _body_cells = [body_cell(record, header) for header in csv_headers]
+    return _body_cells
+
+
+def row(cells):
+    _row = ['<tr>', *cells, '</tr>']
+    return _row
+
+
 def parse_csv_as_html_string(path):
-    records = list(parse_csv_as_dictionary(path))
+    records = list(parse_csv_as_dictionary(path))    
     record_headers = [record.keys() for record in records]
-    csv_headers = list(dict.fromkeys(
-        [header for record in record_headers for header in record]
-    ))
-
-    def body_cells(record):
-        def body_cell(record, header):
-            _body_cell = f'<td>{escape(record.get(header, ""))}</td>'
-            return _body_cell
-
-        _body_cells = [body_cell(record, header) for header in csv_headers]
-        return _body_cells
-
-    def row(cells):
-        _row = ['<tr>', *cells, '</tr>']
-        return _row
-
-    header_rows = row([f'<th>{escape(header)}</th>' for header in csv_headers])
+    csv_headers = list(dict.fromkeys(flatten(record_headers)))
     
-    body_rows = [
-        markup for body_row in [
-            row(body_cells(record)) for record in records
-        ] for markup in body_row
-    ]
+    header_rows = row([f'<th>{escape(header)}</th>' for header in csv_headers])
+    _body_rows = [row(body_cells(record, csv_headers)) for record in records] 
+    body_rows = flatten(_body_rows)
 
     table = [
         '<table>',
-            '<thead>',
-                *header_rows,
-            '</thead>',
-
-            '<tbody>',
-                *body_rows,
-            '</tbody>',
+            '<thead>', *header_rows, '</thead>',
+            '<tbody>', *body_rows,   '</tbody>',
         '</table>'
     ]
 
