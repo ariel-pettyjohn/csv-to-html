@@ -11,11 +11,11 @@ def parse_csv_as_dictionary(path):
         except:
             print('CSV file cannot be empty')
 
-        rows = list(csv_reader)
+        csv_rows = list(csv_reader)
         try:
-            if rows[0]:
-                for row in rows:
-                    yield {key: value for key, value in zip(headers, row)}
+            if csv_rows[0]:
+                for csv_row in csv_rows:
+                    yield {key: value for key, value in zip(headers, csv_row)}
         except:
             print('CSV file must contain at least one row excluding headers')
 
